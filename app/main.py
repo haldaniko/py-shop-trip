@@ -6,7 +6,7 @@ import json
 import datetime
 
 
-def get_from_json(location: str):
+def get_from_json(location: str) -> tuple[list[Customer], list[Shop], float]:
     with open(location, "r") as file:
         data = json.load(file)
 
@@ -36,13 +36,13 @@ def shop_trip() -> None:
 
         print(f"{customer.name} has {customer.money} dollars")
         for shop in shops:
-            trip_cost = customer.calculate_trip_fuel_price(shop.location, fuel_price)
-            shop_cost = shop.calculate_total_price(customer)
-            total_cost = trip_cost + shop_cost
+            way_price = customer.calculate_way_price(shop.location, fuel_price)
+            shop_price = shop.calculate_total_price(customer)
+            total_price = way_price + shop_price
             print(f"{customer.name}'s trip "
-                  f"to the {shop.name} costs {total_cost}")
-            if total_cost < best_price:
-                best_price = total_cost
+                  f"to the {shop.name} costs {total_price}")
+            if total_price < best_price:
+                best_price = total_price
                 best_shop = shop
 
         if customer.money >= best_price:
